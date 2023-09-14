@@ -1,3 +1,4 @@
+const aspectRatio = 53 / 30;  // width / height
 
 const vertex = `
   varying vec2 vUv;
@@ -272,13 +273,13 @@ class Sketch {
   }
 
   addMesh() {
-    this.geometry = new THREE.PlaneBufferGeometry(2, 2),
+    this.geometry = new THREE.PlaneBufferGeometry(2 * aspectRatio, 2);
     this.material = new THREE.ShaderMaterial({
       fragmentShader: fragment,
       vertexShader: vertex,
       uniforms: {
         uResolution: {
-          value: new THREE.Vector2(this.viewport.width,this.viewport.height)
+          value: new THREE.Vector2(53 * 16, 30 * 16) // Assuming 1rem = 16px
         },
         uTime: {
           value: 0
@@ -308,9 +309,9 @@ class Sketch {
       width: window.innerWidth,
       height: window.innerHeight
     },
-    this.camera.aspect = this.viewport.width / this.viewport.height,
+    this.camera.aspect = aspectRatio;
     this.camera.updateProjectionMatrix(),
-    this.renderer.setSize(this.viewport.width, this.viewport.height),
+    this.renderer.setSize(53 * 16, 30 * 16);  // Assuming 1rem = 16px
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   }
 
