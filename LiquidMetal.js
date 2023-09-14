@@ -336,7 +336,7 @@ class Sketch {
 }
 
 window.onload = () => {
-  console.log('hahaha');
+  console.log('is this thing on?');
   // Create a new instance of the application
   const sketch = new Sketch({
       dom: document.getElementById('container')
