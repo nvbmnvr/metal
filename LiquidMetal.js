@@ -214,10 +214,10 @@ const fragment = `
 
                   float grainSize=1.1;
                   float g=grain(vUv,uResolution/grainSize);
-                  vec3 color=vec3(g);
-                  gl_FragColor=vec4(color,1.);
+                  vec3 color = vec3(cos(len + g) + 0.5, cos(len + g) + 0.5, cos(len + g) + 0.5);
+                  color = clamp(color, 0.0, 1.0);
+                  gl_FragColor = vec4(color, 1.);
 
-                  gl_FragColor=vec4(g, g, g, 1.);
 
               }
 `;
