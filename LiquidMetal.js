@@ -3,9 +3,8 @@ const vertex = `
   varying vec2 vUv;
 
   void main() {
-      gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
-
       vUv = uv;
+      gl_Position = vec4(position, 1.0);
   }
 `;
 
@@ -266,12 +265,12 @@ class Sketch {
 
   addCamera() {
     this.camera = new THREE.PerspectiveCamera(75,this.viewport.width / this.viewport.height,.1,10),
-    this.camera.position.set(0, 0, 2.5),
+    this.camera.position.set(0, 0, 1),
     this.scene.add(this.camera)
   }
 
   addMesh() {
-    this.geometry = new THREE.SphereGeometry(1.1,32,32),
+    this.geometry = new THREE.PlaneBufferGeometry(2, 2),
     this.material = new THREE.ShaderMaterial({
       fragmentShader: fragment,
       vertexShader: vertex,
