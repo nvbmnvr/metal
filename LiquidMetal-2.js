@@ -268,12 +268,12 @@ class Sketch {
 
   addCamera() {
     this.camera = new THREE.PerspectiveCamera(75,this.viewport.width / this.viewport.height,.1,10),
-    this.camera.position.set(0, 0, 0.69),
+    this.camera.position.set(0, 0, 1),
     this.scene.add(this.camera)
   }
 
   addMesh() {
-    this.geometry = new THREE.PlaneBufferGeometry(3 * aspectRatio, 3);
+    this.geometry = new THREE.PlaneBufferGeometry(2 * aspectRatio, 2);
     this.material = new THREE.ShaderMaterial({
       fragmentShader: fragment,
       vertexShader: vertex,
