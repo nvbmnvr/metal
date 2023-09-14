@@ -265,7 +265,7 @@ class Sketch {
 
   addCamera() {
     this.camera = new THREE.PerspectiveCamera(75,this.viewport.width / this.viewport.height,.1,10),
-    this.camera.position.set(0, 0, 5),
+    this.camera.position.set(0, 0, 1),
     this.scene.add(this.camera)
   }
 
