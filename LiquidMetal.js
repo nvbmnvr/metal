@@ -206,8 +206,9 @@ const fragment = `
 
                   for(int i=0;i<AMOUNT;i++){
                       len=length(vec2(newUv.x,newUv.y));
-                      newUv.x=newUv.x-cos(newUv.y+sin(len))+cos(uTime/3.);
-                      newUv.y=newUv.y+sin(newUv.x+cos(len))+sin(uTime/3.);
+                      newUv.x = newUv.x + cos(uTime/3.);
+                      newUv.y = newUv.y + sin(uTime/3.);
+
                   }
 
                   float grainSize=1.1;
@@ -215,7 +216,8 @@ const fragment = `
                   vec3 color=vec3(g);
                   gl_FragColor=vec4(color,1.);
 
-                  gl_FragColor=vec4(cos(len + g),cos(len + g),cos(len + g),1.);
+                  gl_FragColor=vec4(g, g, g, 1.);
+
               }
 `;
 
