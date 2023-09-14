@@ -1,11 +1,10 @@
-const aspectRatio = 53 / 30;  // width / height
-
 const vertex = `
   varying vec2 vUv;
 
   void main() {
+      gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+
       vUv = uv;
-      gl_Position = vec4(position, 1.0);
   }
 `;
 
@@ -207,18 +206,16 @@ const fragment = `
 
                   for(int i=0;i<AMOUNT;i++){
                       len=length(vec2(newUv.x,newUv.y));
-                      newUv.x = newUv.x + cos(uTime/3.);
-                      newUv.y = newUv.y + sin(uTime/3.);
-
+                      newUv.x=newUv.x-cos(newUv.y+sin(len))+cos(uTime/3.);
+                      newUv.y=newUv.y+sin(newUv.x+cos(len))+sin(uTime/3.);
                   }
 
                   float grainSize=1.1;
                   float g=grain(vUv,uResolution/grainSize);
-                  vec3 color = vec3(cos(len + g) + 0.5, cos(len + g) + 0.5, cos(len + g) + 0.5);
-                  color = clamp(color, 0.0, 1.0);
-                  gl_FragColor = vec4(color, 1.);
+                  vec3 color=vec3(g);
+                  gl_FragColor=vec4(color,1.);
 
-
+                  gl_FragColor=vec4(cos(len + g),cos(len + g),cos(len + g),1.);
               }
 `;
 
@@ -268,18 +265,18 @@ class Sketch {
 
   addCamera() {
     this.camera = new THREE.PerspectiveCamera(75,this.viewport.width / this.viewport.height,.1,10),
-    this.camera.position.set(0, 0, 3),
+    this.camera.position.set(0, 0, 2.5),
     this.scene.add(this.camera)
   }
 
   addMesh() {
-    this.geometry = new THREE.PlaneBufferGeometry(2 * aspectRatio, 2);
+    this.geometry = new THREE.SphereGeometry(1.1,32,32),
     this.material = new THREE.ShaderMaterial({
       fragmentShader: fragment,
       vertexShader: vertex,
       uniforms: {
         uResolution: {
-          value: new THREE.Vector2(53 * 16, 30 * 16) // Assuming 1rem = 16px
+          value: new THREE.Vector2(this.viewport.width,this.viewport.height)
         },
         uTime: {
           value: 0
@@ -309,9 +306,9 @@ class Sketch {
       width: window.innerWidth,
       height: window.innerHeight
     },
-    this.camera.aspect = aspectRatio;
+    this.camera.aspect = this.viewport.width / this.viewport.height,
     this.camera.updateProjectionMatrix(),
-    this.renderer.setSize(53 * 16, 30 * 16);  // Assuming 1rem = 16px
+    this.renderer.setSize(this.viewport.width, this.viewport.height),
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   }
 
@@ -336,10 +333,9 @@ class Sketch {
 }
 
 window.onload = () => {
-  console.log('is this thing on?');
+  console.log('hahaha');
   // Create a new instance of the application
   const sketch = new Sketch({
       dom: document.getElementById('container')
   });
 };
-
