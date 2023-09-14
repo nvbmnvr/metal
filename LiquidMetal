@@ -1,4 +1,4 @@
-<script>
+
 const vertex = `
   varying vec2 vUv;
 
@@ -340,4 +340,4 @@ window.onload = () => {
       dom: document.getElementById('container')
   });
 };
-</script>
+
