@@ -13,6 +13,7 @@ const fragment = `
   uniform float uTime;
 
   varying vec2 vUv;
+  vec2 scaledUV = vUv * 1.2;
 
   const int AMOUNT=10;
 
@@ -184,23 +185,23 @@ const fragment = `
                   dot(p2,x2),dot(p3,x3)));
               }
 
-              float grain(vec2 vUv,vec2 uResolution,float frame,float multiplier){
-                  vec2 mult=vUv*uResolution;
+              float grain(vec2 scaledUV,vec2 uResolution,float frame,float multiplier){
+                  vec2 mult=scaledUV*uResolution;
                   float offset=snoise(vec3(mult/multiplier,frame));
-                  float n1=pnoise(vec3(mult,offset),vec3(1./vUv*uResolution,1.));
+                  float n1=pnoise(vec3(mult,offset),vec3(1./scaledUV*uResolution,1.));
                   return n1/2.+.5;
               }
 
-              float grain(vec2 vUv,vec2 uResolution,float frame){
-                  return grain(vUv,uResolution,frame,2.5);
+              float grain(vec2 scaledUV,vec2 uResolution,float frame){
+                  return grain(scaledUV,uResolution,frame,2.5);
               }
 
-              float grain(vec2 vUv,vec2 uResolution){
-                  return grain(vUv + cos(uTime),uResolution,0.);
+              float grain(vec2 scaledUV,vec2 uResolution){
+                  return grain(scaledUV + cos(uTime),uResolution,0.);
               }
 
               void main(){
-                  vec2 newUv=20.*(vUv.xy-uResolution);
+                  vec2 newUv=20.*(scaledUV.xy-uResolution);
 
                   float len;
 
@@ -211,7 +212,7 @@ const fragment = `
                   }
 
                   float grainSize=1.1;
-                  float g=grain(vUv,uResolution/grainSize);
+                  float g=grain(scaledUV,uResolution/grainSize);
                   vec3 color=vec3(g);
                   gl_FragColor=vec4(color,1.);
 
@@ -308,7 +309,7 @@ class Sketch {
     },
     this.camera.aspect = this.viewport.width / this.viewport.height,
     this.camera.updateProjectionMatrix(),
-    this.renderer.setSize(this.viewport.width, this.viewport.height),
+   this.renderer.setSize(53 * 16, 30 * 16),
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   }
 
